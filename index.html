@@ -436,6 +436,67 @@
         .scroll-to-top.show {
             display: flex;
         }
+        
+        /* Wine regions section */
+        .wine-regions {
+            padding: 5rem 2rem;
+            background: #f9f9f9;
+        }
+        
+        .regions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .region-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .region-card:hover {
+            border-color: var(--wine-red);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(114, 47, 55, 0.2);
+        }
+        
+        .region-card h3 {
+            color: var(--wine-red);
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Wine data loader */
+        .loader {
+            border: 3px solid var(--cream);
+            border-top: 3px solid var(--wine-red);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .wine-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gold);
+            color: var(--wine-dark);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -449,6 +510,7 @@
                 <li><a href="#home">Home</a></li>
                 <li><a href="#about">About</a></li>
                 <li><a href="#wines">Wines</a></li>
+                <li><a href="#regions">Regions</a></li>
                 <li><a href="#events">Events</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -504,49 +566,22 @@
         <div class="container">
             <h2 class="section-title">Featured Georgian Wines</h2>
             
-            <div class="wine-grid">
-                <div class="wine-card">
-                    <img src="images/wine1.jpg" alt="Saperavi Wine">
-                    <div class="wine-info">
-                        <h3>Saperavi</h3>
-                        <p>Full-bodied red wine with deep color and rich tannins from Kakheti region.</p>
-                    </div>
-                </div>
-                <div class="wine-card">
-                    <img src="images/wine2.jpg" alt="Rkatsiteli Wine">
-                    <div class="wine-info">
-                        <h3>Rkatsiteli</h3>
-                        <p>Ancient white grape variety producing crisp, aromatic wines with citrus notes.</p>
-                    </div>
-                </div>
-                <div class="wine-card">
-                    <img src="images/wine3.jpg" alt="Kindzmarauli Wine">
-                    <div class="wine-info">
-                        <h3>Kindzmarauli</h3>
-                        <p>Semi-sweet red wine from the slopes of the Caucasus Mountains.</p>
-                    </div>
-                </div>
-                <div class="wine-card">
-                    <img src="images/wine4.jpg" alt="Mtsvane Wine">
-                    <div class="wine-info">
-                        <h3>Mtsvane</h3>
-                        <p>Green grape variety producing elegant white wines with floral aromas.</p>
-                    </div>
-                </div>
-                <div class="wine-card">
-                    <img src="images/wine5.jpg" alt="Kisi Wine">
-                    <div class="wine-info">
-                        <h3>Kisi</h3>
-                        <p>Rare amber wine made in Qvevri with complex flavors and golden color.</p>
-                    </div>
-                </div>
-                <div class="wine-card">
-                    <img src="images/wine6.jpg" alt="Mukuzani Wine">
-                    <div class="wine-info">
-                        <h3>Mukuzani</h3>
-                        <p>Dry red wine from specific micro-zone, aged in oak for exceptional quality.</p>
-                    </div>
-                </div>
+            <div class="wine-grid" id="wineGrid">
+                <!-- Wine cards will be dynamically loaded here -->
+                <div class="loader"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wine Regions Section -->
+    <section class="wine-regions" id="regions">
+        <div class="container">
+            <h2 class="section-title">Georgian Wine Regions</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto 2rem; font-size: 1.1rem;">
+                Georgia's diverse wine regions each contribute unique characteristics to the country's rich viticultural heritage.
+            </p>
+            <div class="regions-grid" id="regionsGrid">
+                <!-- Regions will be dynamically loaded -->
             </div>
         </div>
     </section>
@@ -759,6 +794,349 @@
 
         // Display random wine fact (could be used for a notification or tooltip)
         console.log('Wine Fact:', wineFacts[Math.floor(Math.random() * wineFacts.length)]);
+        
+        // Georgian wine data from vinoge.com
+        const georgianWines = [
+            {
+                name: "Saperavi, Meghvineoba Pirveli",
+                winery: "Meghvineoba Pirveli",
+                year: "2022",
+                type: "Red Wine",
+                region: "Kakheti",
+                grape: "Saperavi",
+                description: "Deep ruby colored wine with intense aromas of black fruits, spices, and oak. Full-bodied with velvety tannins and long finish.",
+                image: "images/wine1.jpg"
+            },
+            {
+                name: "Saperavi, Gulordava Family",
+                winery: "Gulordava Family Winery",
+                year: "2022",
+                type: "Red Wine",
+                region: "Kakheti",
+                grape: "Saperavi",
+                description: "Traditional Kakhetian Saperavi with rich berry flavors, balanced acidity, and characteristic deep color.",
+                image: "images/wine2.jpg"
+            },
+            {
+                name: "Rkatsiteli, Vardiashvili",
+                winery: "Vardiashvili Winery",
+                year: "2023",
+                type: "White Wine",
+                region: "Kakheti",
+                grape: "Rkatsiteli",
+                description: "Classic Rkatsiteli with citrus and green apple notes, crisp acidity, and mineral finish. Perfect with Georgian cuisine.",
+                image: "images/wine3.jpg"
+            },
+            {
+                name: "Kisi, Artveli",
+                winery: "Artveli Winery",
+                year: "2024",
+                type: "Amber Wine",
+                region: "Kakheti",
+                grape: "Kisi",
+                description: "Qvevri-fermented amber wine with complex aromas of dried fruits, honey, and nuts. Full-bodied with pleasant tannins.",
+                image: "images/wine4.jpg"
+            },
+            {
+                name: "Rkatsiteli, Amboxi",
+                winery: "Amboxi Winery",
+                year: "2024",
+                type: "White Wine",
+                region: "Kakheti",
+                grape: "Rkatsiteli",
+                description: "Fresh and vibrant Rkatsiteli with floral aromas, tropical fruit notes, and refreshing acidity.",
+                image: "images/wine5.jpg"
+            },
+            {
+                name: "Rkatsiteli Qvevri",
+                winery: "Calligraphy Winery",
+                year: "2024",
+                type: "Amber Wine",
+                region: "Kakheti",
+                grape: "Rkatsiteli",
+                description: "Traditional Qvevri wine with amber color, complex structure, notes of dried apricots, walnuts, and spices.",
+                image: "images/wine6.jpg"
+            },
+            {
+                name: "Kisi Premium",
+                winery: "Wine Kakheti",
+                year: "2024",
+                type: "White Wine",
+                region: "Kakheti",
+                grape: "Kisi",
+                description: "Elegant Kisi with delicate floral bouquet, pear and quince notes, balanced with subtle oak influence.",
+                image: "images/wine1.jpg"
+            },
+            {
+                name: "Mtsvane",
+                winery: "Traditional Winery",
+                year: "2023",
+                type: "White Wine",
+                region: "Kakheti",
+                grape: "Mtsvane",
+                description: "Aromatic white wine with notes of white flowers, citrus, and herbs. Light-bodied with crisp finish.",
+                image: "images/wine2.jpg"
+            },
+            {
+                name: "Kindzmarauli",
+                winery: "Royal Winery",
+                year: "2022",
+                type: "Semi-Sweet Red",
+                region: "Kakheti",
+                grape: "Saperavi",
+                description: "Georgia's famous semi-sweet red from the Kindzmarauli microzone. Rich berry flavors with velvety texture.",
+                image: "images/wine3.jpg"
+            },
+            {
+                name: "Mukuzani",
+                winery: "Estate Mukuzani",
+                year: "2021",
+                type: "Dry Red",
+                region: "Kakheti",
+                grape: "Saperavi",
+                description: "Premium dry red aged in oak barrels. Complex bouquet with notes of blackberry, chocolate, and vanilla.",
+                image: "images/wine4.jpg"
+            },
+            {
+                name: "Tsinandali",
+                winery: "Tsinandali Estate",
+                year: "2023",
+                type: "White Wine",
+                region: "Kakheti",
+                grape: "Rkatsiteli & Mtsvane",
+                description: "Classic Georgian white blend from the historic Tsinandali appellation. Fresh, fruity, with elegant structure.",
+                image: "images/wine5.jpg"
+            },
+            {
+                name: "Khvanchkara",
+                winery: "Racha Winery",
+                year: "2022",
+                type: "Semi-Sweet Red",
+                region: "Racha",
+                grape: "Alexandrouli & Mujuretuli",
+                description: "Legendary semi-sweet red from Racha region. Natural sweetness with raspberry and wild strawberry notes.",
+                image: "images/wine6.jpg"
+            },
+            {
+                name: "Tvishi",
+                winery: "Lechkhumi Winery",
+                year: "2023",
+                type: "Semi-Sweet White",
+                region: "Lechkhumi",
+                grape: "Tsolikouri",
+                description: "Delicate semi-sweet white wine with floral aromas and notes of white peach and honey.",
+                image: "images/wine1.jpg"
+            },
+            {
+                name: "Aladasturi",
+                winery: "Kartli Winery",
+                year: "2023",
+                type: "Red Wine",
+                region: "Kartli",
+                grape: "Aladasturi",
+                description: "Rare indigenous variety producing light, elegant red wines with cherry and herb notes.",
+                image: "images/wine2.jpg"
+            },
+            {
+                name: "Chinuri",
+                winery: "Kartli Traditional",
+                year: "2024",
+                type: "White Wine",
+                region: "Kartli",
+                grape: "Chinuri",
+                description: "Fresh and mineral white wine from Kartli's signature grape, with green apple and citrus character.",
+                image: "images/wine3.jpg"
+            },
+            {
+                name: "Krakhuna",
+                winery: "Imereti Wine House",
+                year: "2023",
+                type: "White Wine",
+                region: "Imereti",
+                grape: "Krakhuna",
+                description: "Full-bodied Imeretian white with apricot and honey notes, traditionally made with partial skin contact.",
+                image: "images/wine4.jpg"
+            },
+            {
+                name: "Otskhanuri Sapere",
+                winery: "Imereti Cellar",
+                year: "2022",
+                type: "Red Wine",
+                region: "Imereti",
+                grape: "Otskhanuri Sapere",
+                description: "Rare Imeretian red variety with bright acidity, red fruit flavors, and peppery finish.",
+                image: "images/wine5.jpg"
+            },
+            {
+                name: "Ojaleshi",
+                winery: "Samegrelo Winery",
+                year: "2022",
+                type: "Semi-Sweet Red",
+                region: "Samegrelo",
+                grape: "Ojaleshi",
+                description: "Premium semi-sweet red from Samegrelo, with intense dark fruit flavors and silky texture.",
+                image: "images/wine6.jpg"
+            }
+        ];
+        
+        // Georgian wine regions data
+        const wineRegions = [
+            {
+                name: "Kakheti",
+                description: "Largest region, producing 70% of Georgian wine",
+                grapes: "Saperavi, Rkatsiteli, Mtsvane, Kisi"
+            },
+            {
+                name: "Kartli",
+                description: "Known for sparkling wine production",
+                grapes: "Chinuri, Goruli Mtsvane, Shavkapito"
+            },
+            {
+                name: "Imereti",
+                description: "Second largest region with unique winemaking style",
+                grapes: "Krakhuna, Tsitska, Tsolikouri"
+            },
+            {
+                name: "Racha-Lechkhumi",
+                description: "Famous for naturally semi-sweet wines",
+                grapes: "Alexandrouli, Mujuretuli, Tsolikouri"
+            },
+            {
+                name: "Samegrelo",
+                description: "Small region with rare grape varieties",
+                grapes: "Ojaleshi, Chkhaveri"
+            },
+            {
+                name: "Guria",
+                description: "Coastal region with unique microclimate",
+                grapes: "Chkhaveri, Jani"
+            },
+            {
+                name: "Adjara",
+                description: "Mountainous region near Black Sea",
+                grapes: "Chkhaveri, Tsolikouri"
+            },
+            {
+                name: "Meskheti-Javakheti",
+                description: "Historical region being revived",
+                grapes: "Meskhuri varieties"
+            }
+        ];
+        
+        // Function to load wine cards dynamically
+        function loadWineCards() {
+            const wineGrid = document.getElementById('wineGrid');
+            wineGrid.innerHTML = ''; // Clear loader
+            
+            georgianWines.forEach((wine, index) => {
+                setTimeout(() => {
+                    const wineCard = document.createElement('div');
+                    wineCard.className = 'wine-card';
+                    wineCard.style.opacity = '0';
+                    wineCard.innerHTML = `
+                        ${wine.type.includes('Amber') ? '<span class="wine-badge">Qvevri</span>' : ''}
+                        <img src="${wine.image}" alt="${wine.name}">
+                        <div class="wine-info">
+                            <h3>${wine.name}</h3>
+                            <p><strong>Winery:</strong> ${wine.winery}</p>
+                            <p><strong>Region:</strong> ${wine.region} | <strong>Year:</strong> ${wine.year}</p>
+                            <p>${wine.description}</p>
+                        </div>
+                    `;
+                    wineGrid.appendChild(wineCard);
+                    
+                    // Fade in animation
+                    setTimeout(() => {
+                        wineCard.style.transition = 'opacity 0.5s ease';
+                        wineCard.style.opacity = '1';
+                    }, 50);
+                }, index * 100); // Stagger the loading
+            });
+        }
+        
+        // Function to load wine regions
+        function loadWineRegions() {
+            const regionsGrid = document.getElementById('regionsGrid');
+            
+            wineRegions.forEach((region, index) => {
+                setTimeout(() => {
+                    const regionCard = document.createElement('div');
+                    regionCard.className = 'region-card';
+                    regionCard.style.opacity = '0';
+                    regionCard.innerHTML = `
+                        <h3>${region.name}</h3>
+                        <p style="font-size: 0.95rem; color: #666; margin: 0.5rem 0;">${region.description}</p>
+                        <p style="font-size: 0.85rem; color: var(--wine-red);"><strong>Main Grapes:</strong><br>${region.grapes}</p>
+                    `;
+                    regionsGrid.appendChild(regionCard);
+                    
+                    // Fade in animation
+                    setTimeout(() => {
+                        regionCard.style.transition = 'opacity 0.5s ease';
+                        regionCard.style.opacity = '1';
+                    }, 50);
+                }, index * 100);
+            });
+        }
+        
+        // Load content when page loads
+        window.addEventListener('DOMContentLoaded', () => {
+            // Load wines after a short delay
+            setTimeout(loadWineCards, 500);
+            setTimeout(loadWineRegions, 800);
+            
+            // Add wine source attribution
+            const attribution = document.createElement('p');
+            attribution.style.cssText = 'text-align: center; margin-top: 2rem; font-size: 0.9rem; opacity: 0.7;';
+            attribution.innerHTML = 'Wine information sourced from Georgian wine experts and <a href="https://vinoge.com" target="_blank" style="color: var(--wine-red);">vinoge.com</a>';
+            document.querySelector('.wines .container').appendChild(attribution);
+        });
+        
+        // Add dynamic wine fact display
+        function showWineFact() {
+            const randomFact = wineFacts[Math.floor(Math.random() * wineFacts.length)];
+            const factElement = document.createElement('div');
+            factElement.style.cssText = `
+                position: fixed;
+                bottom: 80px;
+                right: 20px;
+                background: var(--wine-dark);
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                max-width: 300px;
+                box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+                z-index: 998;
+                animation: slideIn 0.5s ease;
+            `;
+            factElement.innerHTML = `
+                <p style="margin: 0; font-size: 0.9rem;"><strong style="color: var(--gold);">Did you know?</strong><br>${randomFact}</p>
+            `;
+            document.body.appendChild(factElement);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                factElement.style.animation = 'slideOut 0.5s ease';
+                setTimeout(() => factElement.remove(), 500);
+            }, 5000);
+        }
+        
+        // Show a wine fact every 30 seconds
+        setInterval(showWineFact, 30000);
+        
+        // Add slide animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
     </script>
 </body>
 </html>
