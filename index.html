@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>საქართველოს ღვინის კლუბი | Georgian Wine Club</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --wine-red: #722f37;
+            --wine-dark: #3c1414;
+            --gold: #d4af37;
+            --cream: #faf6f0;
+            --text-dark: #2c2c2c;
+        }
+        
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            width: 100%;
+            background: rgba(60, 20, 20, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        nav.scrolled {
+            background: var(--wine-dark);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            color: var(--gold);
+            font-weight: bold;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo span {
+            font-size: 2rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+        
+        /* Mobile Menu */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: #fff;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+        
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(60, 20, 20, 0.5), rgba(60, 20, 20, 0.5)),
+                        url('images/vineyard-hero.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            padding: 2rem;
+            animation: fadeInUp 1.5s ease;
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .georgian-text {
+            font-size: 2.5rem;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: var(--gold);
+            color: var(--wine-dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            font-size: 1.1rem;
+        }
+        
+        .btn:hover {
+            background: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+        
+        /* About Section */
+        .about {
+            padding: 5rem 2rem;
+            background: var(--cream);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            color: var(--wine-red);
+            margin-bottom: 3rem;
+        }
+        
+        .about-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+        
+        .about-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .about-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .about-card i {
+            font-size: 3rem;
+            color: var(--wine-red);
+            margin-bottom: 1rem;
+        }
+        
+        .about-card h3 {
+            color: var(--wine-dark);
+            margin-bottom: 1rem;
+        }
+        
+        /* Wine Collection */
+        .wines {
+            padding: 5rem 2rem;
+            background: white;
+        }
+        
+        .wine-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .wine-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+        
+        .wine-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .wine-card img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+        
+        .wine-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(60, 20, 20, 0.9), transparent);
+            color: white;
+            padding: 2rem 1.5rem 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s;
+        }
+        
+        .wine-card:hover .wine-info {
+            transform: translateY(0);
+        }
+        
+        .wine-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+        
+        /* Events Section */
+        .events {
+            padding: 5rem 2rem;
+            background: var(--cream);
+        }
+        
+        .event-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .event-item {
+            background: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            transition: transform 0.3s;
+        }
+        
+        .event-item:hover {
+            transform: translateX(10px);
+        }
+        
+        .event-date {
+            background: var(--wine-red);
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 80px;
+        }
+        
+        .event-date .day {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        
+        .event-date .month {
+            font-size: 0.9rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 5rem 2rem;
+            background: var(--wine-dark);
+            color: white;
+            text-align: center;
+        }
+        
+        .contact .section-title {
+            color: var(--gold);
+        }
+        
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--gold);
+        }
+        
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--wine-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--gold);
+        }
+        
+        .social-links {
+            margin: 1rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--gold);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links.active {
+                display: flex;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--wine-dark);
+                flex-direction: column;
+                padding: 1rem 2rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .georgian-text {
+                font-size: 2rem;
+            }
+            
+            .event-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+        
+        /* Scroll to top button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--wine-red);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            z-index: 999;
+        }
+        
+        .scroll-to-top:hover {
+            background: var(--gold);
+            transform: translateY(-5px);
+        }
+        
+        .scroll-to-top.show {
+            display: flex;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <span>🍷</span> Georgian Wine Club
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#wines">Wines</a></li>
+                <li><a href="#events">Events</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu-toggle" id="mobileMenu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="georgian-text">საქართველოს ღვინის კლუბი</div>
+            <h1>Georgian Wine Club</h1>
+            <p>Discover the ancient tradition of Georgian winemaking, where 8,000 years of history meets modern excellence. Join us in celebrating the unique Qvevri wines and indigenous grape varieties.</p>
+            <a href="#contact" class="btn">Join Our Club</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="about">
+        <div class="container">
+            <h2 class="section-title">About Georgian Wine Heritage</h2>
+            <p style="text-align: center; max-width: 800px; margin: 0 auto; font-size: 1.1rem; line-height: 1.8;">
+                Georgia is the birthplace of wine, with an unbroken tradition of winemaking that dates back 8,000 years. 
+                Our unique Qvevri method, recognized by UNESCO as Intangible Cultural Heritage, produces wines with distinctive character and complexity.
+            </p>
+            
+            <div class="about-content">
+                <div class="about-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🏺</div>
+                    <h3>Qvevri Tradition</h3>
+                    <p>Ancient clay vessels buried underground for natural fermentation, creating unique amber wines.</p>
+                </div>
+                <div class="about-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🍇</div>
+                    <h3>525+ Grape Varieties</h3>
+                    <p>Georgia is home to over 525 indigenous grape varieties, more than any other country.</p>
+                </div>
+                <div class="about-card">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">🌍</div>
+                    <h3>UNESCO Heritage</h3>
+                    <p>Georgian traditional Qvevri wine-making method is recognized by UNESCO.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wine Collection -->
+    <section class="wines" id="wines">
+        <div class="container">
+            <h2 class="section-title">Featured Georgian Wines</h2>
+            
+            <div class="wine-grid">
+                <div class="wine-card">
+                    <img src="images/wine1.jpg" alt="Saperavi Wine">
+                    <div class="wine-info">
+                        <h3>Saperavi</h3>
+                        <p>Full-bodied red wine with deep color and rich tannins from Kakheti region.</p>
+                    </div>
+                </div>
+                <div class="wine-card">
+                    <img src="images/wine2.jpg" alt="Rkatsiteli Wine">
+                    <div class="wine-info">
+                        <h3>Rkatsiteli</h3>
+                        <p>Ancient white grape variety producing crisp, aromatic wines with citrus notes.</p>
+                    </div>
+                </div>
+                <div class="wine-card">
+                    <img src="images/wine3.jpg" alt="Kindzmarauli Wine">
+                    <div class="wine-info">
+                        <h3>Kindzmarauli</h3>
+                        <p>Semi-sweet red wine from the slopes of the Caucasus Mountains.</p>
+                    </div>
+                </div>
+                <div class="wine-card">
+                    <img src="images/wine4.jpg" alt="Mtsvane Wine">
+                    <div class="wine-info">
+                        <h3>Mtsvane</h3>
+                        <p>Green grape variety producing elegant white wines with floral aromas.</p>
+                    </div>
+                </div>
+                <div class="wine-card">
+                    <img src="images/wine5.jpg" alt="Kisi Wine">
+                    <div class="wine-info">
+                        <h3>Kisi</h3>
+                        <p>Rare amber wine made in Qvevri with complex flavors and golden color.</p>
+                    </div>
+                </div>
+                <div class="wine-card">
+                    <img src="images/wine6.jpg" alt="Mukuzani Wine">
+                    <div class="wine-info">
+                        <h3>Mukuzani</h3>
+                        <p>Dry red wine from specific micro-zone, aged in oak for exceptional quality.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Events Section -->
+    <section class="events" id="events">
+        <div class="container">
+            <h2 class="section-title">Upcoming Events</h2>
+            
+            <div class="event-list">
+                <div class="event-item">
+                    <div class="event-date">
+                        <div class="day">15</div>
+                        <div class="month">DEC</div>
+                    </div>
+                    <div class="event-details">
+                        <h3>Winter Wine Tasting</h3>
+                        <p>Experience the warmth of Georgian wines with traditional winter dishes and live Georgian music.</p>
+                    </div>
+                </div>
+                
+                <div class="event-item">
+                    <div class="event-date">
+                        <div class="day">22</div>
+                        <div class="month">DEC</div>
+                    </div>
+                    <div class="event-details">
+                        <h3>Qvevri Workshop</h3>
+                        <p>Learn about the ancient art of Qvevri winemaking from master vintners.</p>
+                    </div>
+                </div>
+                
+                <div class="event-item">
+                    <div class="event-date">
+                        <div class="day">05</div>
+                        <div class="month">JAN</div>
+                    </div>
+                    <div class="event-details">
+                        <h3>Georgian New Year Supra</h3>
+                        <p>Traditional Georgian feast with multiple courses, toasts, and premium wine selection.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Join Our Wine Club</h2>
+            <p style="margin-bottom: 2rem;">Become a member and enjoy exclusive access to rare Georgian wines, events, and masterclasses.</p>
+            
+            <form class="contact-form" id="contactForm">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone">
+                </div>
+                <div class="form-group">
+                    <label for="message">Message (Optional)</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your wine preferences..."></textarea>
+                </div>
+                <button type="submit" class="btn">Submit Application</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-links">
+            <a href="#" aria-label="Facebook">📘</a>
+            <a href="#" aria-label="Instagram">📷</a>
+            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="#" aria-label="Email">✉️</a>
+        </div>
+        <p>&copy; 2024 Georgian Wine Club. All rights reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">გაუმარჯოს! (Gaumarjos!)</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <div class="scroll-to-top" id="scrollTop">↑</div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+        
+        mobileMenu.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile menu if open
+                    navLinks.classList.remove('active');
+                }
+            });
+        });
+
+        // Scroll to top button
+        const scrollTop = document.getElementById('scrollTop');
+        
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTop.classList.add('show');
+            } else {
+                scrollTop.classList.remove('show');
+            }
+        });
+        
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Form submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(contactForm);
+            const data = Object.fromEntries(formData);
+            
+            // Here you would normally send the data to a server
+            console.log('Form submitted:', data);
+            
+            // Show success message
+            alert('Thank you for your interest! We will contact you soon about your membership application.');
+            
+            // Reset form
+            contactForm.reset();
+        });
+
+        // Animate elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe cards for animation
+        document.querySelectorAll('.about-card, .wine-card, .event-item').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Wine card hover effect enhancement
+        document.querySelectorAll('.wine-card').forEach(card => {
+            card.addEventListener('mouseenter', function() {
+                this.style.zIndex = '10';
+            });
+            card.addEventListener('mouseleave', function() {
+                this.style.zIndex = '1';
+            });
+        });
+
+        // Add parallax effect to hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero');
+            hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+        });
+
+        // Georgian wine facts (for potential tooltips or info sections)
+        const wineFacts = [
+            "Georgia has been making wine for over 8,000 years",
+            "The word 'wine' comes from the Georgian word 'ghvino'",
+            "Georgia has 18 Protected Designations of Origin for wine",
+            "Qvevri can hold from 20 to 10,000 liters of wine",
+            "Georgian traditional feast 'Supra' includes a Tamada (toastmaster)"
+        ];
+
+        // Display random wine fact (could be used for a notification or tooltip)
+        console.log('Wine Fact:', wineFacts[Math.floor(Math.random() * wineFacts.length)]);
+    </script>
+</body>
+</html>
